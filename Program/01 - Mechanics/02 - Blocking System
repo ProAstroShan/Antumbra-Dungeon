@@ -1,0 +1,32 @@
+#Mechanics:
+#Block - reduce damage taken by armour
+import random
+difficulty = "2"
+player_stats = {"health":30,"attack":5,"armour":10}
+def block_damage(armour,damage,encounter):
+  global difficulty
+  #decide the random blocking factor
+  armour_roll = random.randint(0,player_stats["armour"])
+  #make sure armour is not greater than damage
+  if armour_roll > damage:
+    armour_roll = damage
+  scale = modifier(difficulty,encounter)
+  scaled_damage = damage * scale
+  #puts a 25% cap on second block power
+  percentage_block = armour_roll * 0.1
+  if percentage_block > 0.75:
+    percentage_block = 0.75
+  second_block = (percentage_block) * (scaled_damage - armour_roll)
+  total_block = armour_roll + second_block
+  taken_damage = scaled_damage - total_block
+  #rounding for nice values
+  scaled_damage = round(scaled_damage)
+  total_block = round(total_block)
+  taken_damage = round(taken_damage)
+  player_stats["health"] -= taken_damage
+  if total_block > 0:
+    print(f"You should have taken {scaled_damage} damage, but your armour\nblocked {total_block} damage, causing you to actually receive {taken_damage} damage! ")
+  else:
+    print(f"You have taken {taken_damage} damage")
+  return taken_damage
+block_damage(player_stats["armour"],3,2)
