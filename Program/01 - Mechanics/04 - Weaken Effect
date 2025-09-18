@@ -1,0 +1,17 @@
+#mechanics
+#weaken -- reduces attack temporarily
+#basically same format as poision
+player_stats = {"max_health":20,"health":20,"attack":5,"armour":2,"status_effects":{"weaken_duration":0}}
+scale = modifier("2",0)
+def weaken(scale,player_stats):
+  weaken_duration = round(scale)
+  if weaken_duration > 2*scale:
+    weaken_duration = 2*scale
+  if weaken_duration < 2*scale and player_stats["status_effects"]["weaken_duration"] < 2*scale:
+    player_stats["status_effects"]["weaken_duration"] += weaken_duration
+  else:
+    player_stats["status_effects"]["weaken_duration"] += 1
+
+for i in range(6):
+  weaken(scale,player_stats)
+  print(player_stats)
