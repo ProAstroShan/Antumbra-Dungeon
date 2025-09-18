@@ -1,0 +1,17 @@
+#Mechanics
+#EXP -- Level up after you fight a certain number of encounters, gain stat boosts
+player_stats = {"max_health":20,"health":20,"max_attack":5,"attack":5,"exp":0,"level":0,"armour":2}
+def exp(player_stats):
+  player_stats["exp"] += 1
+  if player_stats["exp"] % 4 == 0 and i != 0:
+    player_stats["level"] += 1
+    print(f"You gained EXP and leveled up, allowing you to reach level {player_stats['level']}, EXP = {player_stats['exp']}\nHence, you gain 4 health, 1 attack and 2 armour! ")
+    player_stats["max_health"] += 4
+    player_stats["health"] += 4
+    player_stats["max_attack"] += 1
+    player_stats["attack"] += 1
+    player_stats["armour"] += 2
+    stats_bar(player_stats)
+  else:
+    print(f"You gained EXP! ")
+    stats_bar(player_stats)
