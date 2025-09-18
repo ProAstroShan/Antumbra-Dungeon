@@ -1,0 +1,17 @@
+#mechanics
+#poision - ignores armour and DoT
+scale = modifier("2",0)
+player_stats = {"max_health":30,"health":30,"attack":5,"armour":2,"status_effects":{"poision_duration":0}}
+def poision(scale,player_stats):
+  poision_duration = round(1*scale)
+  #make sure poision duration doesnt balloon so i put a soft cap of 20%
+  soft_cap_duration = 0.2 * player_stats["max_health"]
+  if poision_duration < 1:
+    poision_duration = 1
+  if poision_duration < soft_cap_duration and player_stats["status_effects"]["poision_duration"] < soft_cap_duration:
+    player_stats["status_effects"]["poision_duration"] += poision_duration
+  else:
+    player_stats["status_effects"]["poision_duration"] += 1
+
+  #poision(scale,player_stats)
+  #stats_bar(player_stats)
