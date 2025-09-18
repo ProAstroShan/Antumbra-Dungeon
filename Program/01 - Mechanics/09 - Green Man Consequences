@@ -1,0 +1,27 @@
+#consequences for green man
+encounter = 16
+player_stats = {"max_health":50,"health":50,"max_attack":5,"attack":5,"armour":2,"status_effects":{"poision_duration":0,"weaken_state":False,"weaken_duration":0}}
+green_man_stats = {"health":20}
+scale = modifier("2",16)
+def consequence(player_stats,result,scale,encounter):
+  if player_stats["health"] > 0 and green_man_stats["health"] > 0:
+    if result == "best":
+      print("You anticipated the Green Man's move, dealing 5 counter damage! ")
+      block_damage(player_stats["armour"],1.5,encounter)
+      if green_man_stats["health"] > 0:
+        green_man_stats["health"] -= 5
+    if result == "neutral":
+      print("The Green Man executed his move, but you were able to react in time! ")
+      block_damage(player_stats["armour"],2.5,encounter)
+    if result == "worst":
+      print("The Green Man took you by surprise and inflicted a status effect! ")
+      block_damage(player_stats["armour"],3,encounter)
+      roll = random.randint(1,2)
+      if roll == 1:
+        weaken(scale,player_stats)
+      if roll == 2:
+        poision(scale,player_stats)
+  if player_stats["health"] < 0:
+    player_stats["health"] = 0
+consequence(player_stats,"worst",scale,encounter)
+print(player_stats,green_man_stats)
