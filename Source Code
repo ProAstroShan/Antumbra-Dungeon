@@ -1,1 +1,79 @@
-print("po")
+#Antumbra Dungeon - Main Code
+
+#COPYRIGHT NOTICE
+#© 2025 Roshan. All rights reserved.
+#All characters, events, and locations depicted
+#are fictitious. Any resemblance to actual
+#people, living or undead, is purely coincidental.
+
+#Remember to use Ominous_Real.txt file and Lore_Real.txt file!
+#Initialising:
+import random
+divider = "---------------------------------------------------------------------------------------------"
+player_stats = {"max_health":30,"health":30,"max_attack":5,"attack":5,"armour":2,"exp":0,"level":0,"doom":False,"flee":False,"exit":False,"verdant_robe":False,"status_effects":{"poision_duration":0,"weaken_duration":0,"weaken_state":False}}
+creepy_lines = open("Ominous_Real.txt","r")
+
+difficulty = -1
+encounter = 1
+Life = True
+green_man_stats = {"health":30}
+boss_stats = {"health":100,"reveal_identity":False}
+#Introduction:
+print(f"Hello adventurer! Welcome to Antumbra Dungeon!\n{divider}")
+print(f"Antumbra dungeon is a rouge-like text based dungeon game where you can collect\nunique items like armour and weapons to help you defeat enemies and win the game!\n{divider}")
+#Collecting information:
+while True:
+  name = input("What is your name? ")
+  if name.isalpha() == False:
+    print("I'm sure that is not your name, try again ")
+  else:
+    print(f"Nice name, {name}! ")
+    if name == "Roshan":
+      print("Developer mode enabled! ")
+    break
+if name != "Roshan":
+  print(f"Before you begin {name}, here are the basic controls you will use for this game, ")
+  print("Type the numbered option (eg. 1 --> Fight, 2 --> Run) for decision based questions ")
+  #maybe do save and exit idk tho
+  #print(f"You can also type /other for other controls, such as saving and exiting the game!\n{divider}")
+if name != "Roshan":
+  while True:
+    difficulty = input("Enter the difficulty you want!\n0 --> Easy\n1 --> Normal\n2 --> Hard\n")
+    if len(difficulty) == 1:
+      if difficulty in "012":
+       break
+    else:
+      print("Enter a valid difficulty, remember its the number! ")
+else:
+  difficulty = "2"
+  print("Difficult hard auto selected! ")
+if name != "Roshan":
+  print(f"{divider}\nYour health is how much damage you can take before dying, your attack is how much\ndamage you deal, your armour is how much damage you can block. You EXP helps you level up \nand gain stat boosts. ")
+  print(f"Alright that is it, agree to enter the dungeon to begin the game\nGood luck on your adventure, {name}! ")
+  print(divider)
+  while True:
+    dungeon_enter = input("Do you agree to enter the dungeon?\n1 --> Yes\n2 --> No\n")
+    if dungeon_enter == "1":
+      break
+    else:
+      print("Just type the first option! ")
+print(divider)
+#Gameplay
+while Life == True and player_stats["health"] > 0 and player_stats["exit"] == False:
+  scale = modifier(difficulty,encounter)
+  print(f"                    --------------------- ENCOUNTER {encounter} -----------------------")
+  print("                        " + (creepy_lines.readline()).strip("\n"))
+  if encounter % 3 == 0 or encounter == 16 or encounter == 28:
+    special_events(encounter)
+  else:
+    overall_random_room(player_stats,scale,encounter)
+  if player_stats['health'] <= 0:
+    print("You have died! ")
+    Life = False
+    break
+  if player_stats["exit"] == False:
+    encounter += 1
+    regeneration(player_stats)
+  if encounter == 28:
+    break
+creepy_lines.close()
