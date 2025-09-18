@@ -1,0 +1,36 @@
+#green_man_skill -- specific for green man, fighting
+player_stats = {"health":30,"max_health":30,"max_attack":5,"exp":0,"level":0,"attack":5,"armour":2,"flee":False,"exit":False,"status_effects":{"poision_duration":0,"weaken_state":False,"weaken_duration":0}}
+moves = 3
+green_man_stats = {"health":20}
+encounter = 0
+def green_man_skill(player_stats,moves,scale,encounter):
+  global green_man_stats
+  attacks = {
+     1:{"name":"Vine Snare","hint":"Vines slither beneath your feet, coiling with intent...","responses":{"Fight":"worst","Guard":"best","Wait":"neutral"}},
+     2:{"name":"Spore Cloud","hint":"A thick cloud of yellow spores form around you...","responses":{"Fight":"worst","Guard":"neutral","Wait":"best"}},
+     3:{"name":"Regrowth","hint":"The Green Man starts to go into a meditative state...","responses":{"Fight":"best","Guard":"worst","Wait":"neutral"}},
+     4:{"name":"Shroud of Antumbra","hint":"The Green Man's outline begins to fade...","responses":{"Fight":"worst","Guard":"best","Wait":"neutral"}}}
+  #feedback = {"best":{"damage":1,}} -- bad way to do this
+  print(attacks[moves]["hint"])
+  choice = input("What are you going to do?\n1 --> Fight\n2 --> Guard\n3 --> Wait\n4 --> Description\n5 --> Ascend from the dungeon\n")
+  if len(choice) == 1:
+    if choice in "12345":
+      if choice == "4":
+        print("This mysterious entity has varying attacks that can be \npredicted and countered with the right actions!")
+      if choice == "1":
+          result = attacks[moves]["responses"]["Fight"]
+          consequence(player_stats,result,scale,encounter)
+      if choice == "2":
+          result = attacks[moves]["responses"]["Guard"]
+          consequence(player_stats,result,scale,encounter)
+      if choice == "3":
+          result = attacks[moves]["responses"]["Wait"]
+          consequence(player_stats,result,scale,encounter)
+      if choice == "5":
+        print("You no longer feel in control of your body! ")
+        player_stats["exit"] = True
+  tick(player_stats)
+  stats_bar(player_stats)
+  print(f"""Green Man's health remaining: {green_man_stats["health"]}\n{divider}""")
+#for i in range(1):
+  #green_man_skill(player_stats,1,scale,encounter)
