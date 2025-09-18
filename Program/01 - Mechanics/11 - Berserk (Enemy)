@@ -1,0 +1,10 @@
+#mechanics
+#beserk -- gains health after death, and extra attack
+
+scale = modifier("2",0)
+monster_stats = {"health":2*scale,"attack":1*scale,"beserk_left":True}
+def beserk(monster_stats,scale):
+  if monster_stats["health"] <= 0 and monster_stats["beserk_left"] == True:
+    monster_stats["beserk_left"] = False
+    monster_stats["health"] += scale
+    monster_stats["attack"] += scale
