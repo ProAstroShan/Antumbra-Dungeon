@@ -1,0 +1,28 @@
+#consequence for king
+encounter = 28
+player_stats = {"max_health":50,"health":6,"exp":0,"level":0,"max_attack":10,"armour":2,"attack":10,"status_effects":{"poision_duration":0,"weaken_state":False,"weaken_duration":0}}
+king_stats = {"health":100,"reveal_identity":False}
+scale = modifier("2",16)
+
+def consequences2(player_stats,result,scale,encounter):
+  if player_stats["health"] > 0 and king_stats["health"] > 0:
+    if result == "best":
+      print("You predicted His move, dealing 6 counter damage back and healing some health! ")
+      block_damage(player_stats['armour'],1,encounter)
+      regeneration(player_stats)
+      king_stats["health"] -= 6
+    if result == "neutral":
+      print("He executed his attack, and it partially pierces through your armour! ")
+      if player_stats["armour"] > 0:
+        block_damage((player_stats["armour"] - 1),1.5,encounter)
+      else:
+        block_damage(player_stats["armour"],1.5,encounter)
+    if result == "worst":
+      print("He has taken you by surprise, dealing heavy damage and inflicting multiple negative effects! ")
+      block_damage(player_stats["armour"],2,encounter)
+      poision(scale,player_stats)
+      weaken(scale,player_stats)
+    if player_stats["health"] < 0:
+      player_stats["health"] = 0
+#consequences2(player_stats,"worst",scale,encounter)
+#print(player_stats)
