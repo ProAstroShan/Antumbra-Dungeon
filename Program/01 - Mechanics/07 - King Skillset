@@ -1,0 +1,82 @@
+#King skills - phase 1 and 3
+player_stats = {"max_health":50,"health":50,"exp":0,"level":0,"max_attack":10,"attack":10,"verdant_robe":True,"armour":2,"exit":False,"doom":False,"status_effects":{"poision_duration":0,"weaken_state":False,"weaken_duration":0}}
+moves = 1
+king_stats = {"health":100,"reveal_identity":False}
+encounter = 28
+phase = 2
+def king_skill(player_stats,moves,scale,encounter,phase):
+  global king_stats
+  attacks = {
+      1:{"name":"Night Slash",
+        "hint":{
+          1:"Whispers of cold steel slash the air",
+          2:"A swift edge cuts through the shadows",
+          3:"Silent blades dance close to your skin"},
+        "responses":{
+           "Strike":"neutral",
+           "Brace":"best",
+           "Halt":"worst"}},
+      2:{"name":"Venom Mist",
+        "hint":{
+          1:"A creeping haze curls through the air",
+          2:"The breath of poision lingers near",
+          3:"Toxic mists coil and drift silently"},
+         "responses":{
+            "Strike":"worst",
+            "Brace":"neutral",
+            "Halt":"best"}},
+      3:{"name":"Shadow Shackles",
+        "hint":{
+          1:"Chains tighten around your wrists",
+          2:"Silent bonds restrain your steps",
+          3:"Unseen Shackles pull at your limbs"},
+         "responses":{
+             "Strike":"best",
+             "Brace":"worst",
+             "Halt":"neutral"}}}
+  hint_roll = random.randint(1,3)
+  print(attacks[moves]["hint"][hint_roll])
+  if phase == 2:
+    second_roll = random.randint(1,3)
+    hint_roll2 = random.randint(1,3)
+    print(attacks[second_roll]["hint"][hint_roll2])
+  if player_stats["verdant_robe"] == False:
+    choice = input("What are you going to do?\n1 --> Strike\n2 --> Brace\n3 --> Halt\n4 --> Description\n5 --> Ascend from the dungeon\n")
+  if player_stats["verdant_robe"] == True:
+    choice = input("What are you going to do?\n1 --> Strike\n2 --> Brace\n3 --> Halt\n4 --> Description\n5 --> Ascend from the dungeon\n6 --> Use the Verdant Robe\n")
+  if len(choice) == 1:
+    if choice in "123456":
+      if choice == "4":
+        print("Strikes with steel, clouds the air and bounds with unseen chains, \nthis figure is emitting an overpowering amount of dark magic, \nalmost as if it could be Him...")
+      if choice == "6":
+        if player_stats["verdant_robe"] == True:
+          verdant_robe(player_stats)
+      if choice == "5":
+        print("You no longer feel in control of your body")
+        player_stats["exit"] = True
+      if choice == "1":
+        result = attacks[moves]["responses"]["Strike"]
+        consequences2(player_stats,result,scale,encounter)
+        if phase == 2:
+          result2 = attacks[second_roll]["responses"]["Strike"]
+          consequences2(player_stats,result2,scale,encounter)
+      if choice == "2":
+        result = attacks[moves]["responses"]["Brace"]
+        consequences2(player_stats,result,scale,encounter)
+        if phase == 2:
+          result2 = attacks[second_roll]["responses"]["Strike"]
+          consequences2(player_stats,result2,scale,encounter)
+      if choice == "3":
+        result = attacks[moves]["responses"]["Halt"]
+        consequences2(player_stats,result,scale,encounter)
+        if phase == 3:
+          result2 = attacks[second_roll]["responses"]["Halt"]
+          consequences2(player_stats,result2,scale,encounter)
+  if player_stats["exit"] == False and choice not in ["4", "6"]:
+    tick(player_stats)
+  if king_stats["reveal_identity"] == False:
+    print(f'''??? Health remaining: {king_stats["health"]}\n{divider}''')
+  else:
+    print(f"""King's Health remaining: {king_stats["health"]}\n{divider}""")
+#for i in range(1):
+  #king_skill(player_stats,1,scale,encounter,phase)
