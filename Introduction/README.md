@@ -11,4 +11,4 @@ A rouge like dungeon game created by ProAstroShan. In this game, you face differ
 
 4. Run the Source Code and enjoy! :) 
 
-* Note: These text files were created with the assistance of large language models to refine words and overall flow of events. However, the skeleton was created by me
+\* Note: These text files were created with the assistance of large language models to refine words and overall flow of events. However, the skeleton was created by me
