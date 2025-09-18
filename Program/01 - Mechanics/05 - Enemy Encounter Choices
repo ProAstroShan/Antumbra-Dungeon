@@ -1,0 +1,32 @@
+#mechanics
+#choices
+player_stats = {"health":30,"attack":5,"armour":2,"flee":False,"exit":False,"verdant_robe":False}
+monster_stats = {"health":2,"attack":1,"description":"placeholder"}
+def choices(monster_stats,player_stats,encounter):
+  global exit
+  while True:
+    choice = input("What are you going to do?\n1 --> Fight\n2 --> Flee\n3 --> Description\n4 --> Ascend from the dungeon\n")
+    if len(choice) == 1:
+      if choice in "1234":
+        if choice == "3":
+          print(monster_stats["description"])
+          continue
+        if choice == "1":
+           break
+        if choice == "4":
+          print(f"{divider}\nYou feel unconcious and no longer in control of your body! ")
+          player_stats["exit"] = True
+          break
+        if choice == "2":
+          if random.randint(0,100) > 30:
+            player_stats["flee"] = True
+            print("You have escaped without gaining exp! ")
+            break
+          else:
+            print(f"{divider}\nThe enemy blocked your way and gets a free attack before you go! ")
+            block_damage(player_stats["armour"],monster_stats["attack"],encounter)
+      if len(choice) != 1 or choice not in "1234":
+        print(f"{divider}\nInvalid input! Fight or flight now! If you need help, use the description! ")
+    else:
+        print(f"{divider}\nInvalid input! Fight or flight now! If you need help, use the description! ")
+  return choice
