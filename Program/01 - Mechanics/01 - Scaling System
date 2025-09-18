@@ -1,0 +1,13 @@
+#Mechanics:
+#Scaling -- gets harder over time or between difficulties
+
+def modifier(difficulty,encounter):
+  base_modifier = 1
+  difficulty_modifier = {"0":0.3,"1":0.6,"2":1}
+  for i in range(encounter):
+    base_modifier += 0.1
+  scale = base_modifier * difficulty_modifier[difficulty]
+  return round(scale)
+
+#now this will be a weird number but ill round it when shown to player
+#and since the difference is small, the calculations wont be affected
