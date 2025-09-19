@@ -1,0 +1,8 @@
+#Meta Gameplay
+def overall_random_room(player_stats,scale,encounter):
+  boss = False
+  pool_choice = {"a":fork,"b":random_room,"c":healing_fountain,"d":potential_mimic,"e":sacrificial_altar}
+  pool_key = ["a","b","c","d","e"]
+  final = random.choices(pool_key,weights = [10,60,10,10,10])
+  pool_choice[final[0]](player_stats,scale,encounter)
+#overall_random_room(player_stats,scale,encounter)
