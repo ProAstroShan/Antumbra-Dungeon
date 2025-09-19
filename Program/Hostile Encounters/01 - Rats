@@ -1,0 +1,35 @@
+#Room generation
+#Enemies - Rats (poision)
+Life = True
+scale = modifier("2",0)
+#rat_stats = {"health":2*scale,"attack":1*scale,"description":"These pesky pests inflict poision on their enemies, \ndamaging them over time! Try not to extend this fight! "}
+encounter = 0
+player_stats = {"max_health":20,"health":20,"max_attack":5,"attack":5,"armour":2,"exp":0,"level":0,"status_effects":{"poision_duration":0,"weaken_duration":0,"weaken_state":False}}
+def rat(player_stats,scale,encounter):
+  rat_stats = {"health":2*scale,"attack":1,"description":"These pesky pests inflict poision on their enemies, \ndamaging them over time! Try not to extend this fight! "}
+  print("You encounter a plaque rat! ")
+  choice = choices(rat_stats,player_stats,encounter)
+  print(choice)
+  if choice == "1":
+    print(f"You engage in combat with the rat!\n{divider} ")
+    #check if both alive
+    while player_stats["health"] > 0 and rat_stats["health"] > 0:
+      attack = random.randint(1,player_stats["attack"])
+      rat_stats["health"] -= attack
+      if rat_stats["health"] < 0:
+        rat_stats["health"] = 0
+      print(f"""You have dealt {attack} damage to the rat, it now has {rat_stats["health"]} health! """)
+      if rat_stats["health"] > 0:
+        attack = random.randint(1,rat_stats["attack"])
+        #see if poision will apply or not
+        #if random.randint(0,100) > 0:
+        poision(scale,player_stats)
+        final_attack = block_damage(player_stats["armour"],attack,encounter)
+        tick(player_stats)
+        if player_stats["health"] < 0:
+          player_stats['health'] = 0
+          print("You have died to this enemy! ")
+          Life = False
+        print(f"""You now have {player_stats["health"]} health!\n{divider}""")
+  stats_bar(player_stats)
+#rat(player_stats,scale,encounter)
