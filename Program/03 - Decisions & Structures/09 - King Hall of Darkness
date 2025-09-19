@@ -1,0 +1,127 @@
+#king boss fight
+#Hall of Darkness
+name = "Roshan"
+player_stats = {"health":100,"max_health":100,"exp":0,"flee":False,"level":0,"verdant_robe":True,"status_effects":{"poision_duration":0,"weaken_state":False,"weaken_duration":0},"max_attack":10,"attack":10,"armour":10,"exit":False,"doom":False,}
+encounter = 28
+king_stats = {"health":100,"reveal_identity":False}
+def boss_fight(player_stats,scale,encounter):
+  global divider
+  global name
+  global king_stats
+  boss = True
+  win = False
+  print(f"You encounter an unusually large room, and see a throne lined with crystals\nYou seem to see someone, or something on the throne, looking at you with an \nexpressionless and cold look, almost as if it has been expecting you...\nYou feel like you are going to have a bad time\n{divider}")
+  print(f""""Welcome, {name}. I've been watching you since the moment you stepped into \nthese halls. Every creature, room, and whisper in the dark was all placed \nfor you. You have not come here by accident nor coincidence... I assume \nyou came this far to free the curse of this land, or maybe even to rule \nthem all. But you will never achieve that dream while I still have the crown. \nLet the fight begin!"\n{divider}""")
+  #phase 1
+  # 5 cycles min: 6 dmg x 5 cycles = 30 dmg, 100 - 30 = 70hp
+  print('''"Strength, Speed, Resolve. Let's find out if they're truly yours, or if you had been carried by luck...''')
+  print("----------------------- Phase 1 - Test of Wisdom (71 to 100 hp) ---------------------")
+  if player_stats["verdant_robe"] == True:
+    print('''"I see the Green Man, an old friend, has given you his Verdant Robe...\nUse it if you need in this first or third phase, for \nyou will not be able to use it in the others"''')
+  if player_stats["doom"] == True:
+    print('''"I see you have ignored the Green Man's, an old friend, advice. If you \nare this confident, prove you worth! "''')
+  while player_stats["health"] > 0 and king_stats["health"] > 70 and player_stats["exit"] == False:
+    moves_roll = random.randint(1,3)
+    king_skill(player_stats,moves_roll,scale,encounter,1)
+    if king_stats["health"] <= 70:
+      break
+  regeneration(player_stats)
+  if player_stats["exit"] == False and player_stats["health"] > 0:
+    print(f'''"Interesting.. So you have more spine that most. Good, that will make this fight even better!"\n{divider}''')
+  #phase 2
+  #3 cycles: 10 dmg x 3 cycles = 30 dmg, 70 - 30 = 40hp
+  if player_stats["exit"] == False and player_stats["health"] > 0:
+    print('''"Walls can be rebuilt, soldiers be replaced, but only the worthy can withstand \nthe storm I command, let them break you"''')
+    print("----------------- Phase 2 - Test of Endurance (41 to 70 hp) ---------------------")
+    print("You notice Him placing a life link on 3 monsters, making them stronger! Maybe \ndefeating these monsters will lower His health")
+    count = 0
+    while count < 3 and player_stats["exit"] == False and player_stats["health"] > 0:
+      random_room(player_stats,scale,(encounter))
+      if player_stats["flee"] == False and player_stats["exit"] == False and player_stats["health"] > 0:
+        king_stats["health"] -= 10
+        print("He loses 10 health from the fall of a monster! ")
+        count += 1
+      elif player_stats["health"] <= 0:
+        break
+      else:
+        print("You must defeat the monster in order to break the life link, not flee!")
+        player_stats["exit"] = False
+    if player_stats["health"] > 0:
+      regeneration(player_stats)
+      print('''"You cut them down? Now face me without their distraction! "''')
+  #Phase 3
+  #5 cycles min: 6dmg x 5 cycles = 30 dmg, 40 - 30 = 10hp
+  if player_stats["exit"] == False and player_stats["health"] > 0:
+    print(f'''"Few have forced me hand to this extent. Remember this moment {name}, it is the day \nyou stood before the one who shapes shadows itself..."''')
+    print("-------------------- Phase 3 - Test of Sacrifice -------------------")
+    while player_stats["health"] > 0 and king_stats["health"] > 10 and player_stats["exit"] == False:
+      moves_roll = random.randint(1,3)
+      king_skill(player_stats,moves_roll,scale,encounter,2)
+    regeneration(player_stats)
+    print('''"Not bad for someone like you, though I have been holding back my through power..."''')
+    count = 0
+    #phase 4, puzzle
+    king_stats["reveal_identity"] = True
+    print("------------------- Phase 4 - Test of Will")
+    print(f'''"Enough! No more tests, no more games. I cast aside my mask, for I am the King of \nAntumbra! Your story shall end here {name}!"''')
+    print('''You notice The King channelling all of his energy and might to prepare a massive \ndestructive explosion! "If I'm going down, everyone shall join me too!"''')
+    chants = {
+      9:{"Name":"Light","Effect":"Strong","Response":"The King's form flicker under the harsh light, weakening him"},
+      5:{"Name":"Love","Effect":"Strong","Response":"The King revolts and is weakened by love, for he has never felt it"},
+      7:{"Name":"Purity","Effect":"Strong","Response":"Pure forces burns The King's shadow, weakening him"},
+      3:{"Name":"Flame","Effect":"Neutral","Response":"Flame flickers, neither aiding nor hindering The King"},
+      4:{"Name":"Wind","Effect":"Neutral","Response":"The wind shifts indifferently, a neutral force in this battle"},
+      6:{"Name":"Stone","Effect":"Neutral","Response":"Stone stands firm, neither weakening nor strengthening Him"},
+      2:{"Name":"Shadow","Effect":"Weak","Response":"Shadows swirl around, Him fueling His dark essence"},
+      8:{"Name":"Decay","Effect":"Weak","Response":"Decay feeds his eternal reign, twisting life to His will"},
+      1:{"Name":"Blood","Effect":"Weak","Response":"Blood sacrifice strengthens His cursed soul"}}
+    print("You feel all hope was lost until you suddenly tripped on a Master scroll. This powerful \nscroll allows the user to prepare a deadly magical strike, only if they know \nand say the 3 weaknesses of the target. The weaknesses are to be chanted without \nspaces, eg. 123, you have 5 tries")
+    while count != 5 and player_stats["exit"] == False and player_stats["health"] > 0:
+      while True:
+        choice = input("What do you do?\n1 --> Chant Blood\n2 --> Chant Shadow\n3 --> Chant Flame\n4 --> Chant Wind\n5 --> Chant Love\n6 --> Chant Stone\n7 --> Chant Purity\n8 --> Chant Decay\n9 --> Chant Light\nA --> Ascend from the dungeon\n")
+        if choice == "A" or (len(choice) == 3 and choice[0] in "123456789" and choice[1] in "123456789" and choice[2] in "123456789"):
+          if choice == "A":
+            player_stats["exit"] = True
+          break
+        else:
+          print("Input a valid succession of chants! Eg. 123 or 439 etc.")
+      if player_stats["exit"] == True:
+        print("You no longer feel in control of your body!")
+        break
+      else:
+        print(chants[int(choice[0])]["Response"])
+        print(chants[int(choice[1])]["Response"])
+        print(chants[int(choice[2])]["Response"])
+      if choice[0] in "957" and choice[1] in "957" and choice[2] in "957":
+        break
+      else:
+        count += 1
+        print(f"Your chant was not strong enough! {5 - count} tries remaining! ")
+    if player_stats["exit"] == False and count <= 5 and player_stats["health"] > 0:
+      print("Your chant was sucessful! You launch a deadly strike towards The King, making him fall! ")
+      print('''"So the throne... wil fall to another... may the shadows... remember me"''')
+      win = True
+    if count > 5:
+      print("Your final chant falters. The wrong words hang in the air powerless\n of the rising storm. The King's laughter swells, shaking the very ground as\nshadows boil to a singular, burning point. The air tears opens, light dies, and \nsound is consumed. You feel your body dissolve into nothing as Antumbra's \nreign becomes absolute. Everything gets swallowed into the void...")
+  if player_stats["exit"] == False and player_stats["health"] <= 0:
+    if king_stats["reveal_identity"] == True:
+      placeholder = "The King"
+    else:
+      placeholder = "He"
+    print(f"Pain blooms through your chest. You stagger back, the world tilting as \nthe throne room fades from view. {placeholder} does not even bother to watch you fall...")
+  if win == True:
+    print("You watch the king lifeless on the floor, disintegrating into dust. Only \none thing remains, his emerald heart, the source of the curse...")
+    while True:
+      ending = input("You take a step closer and decide on what do\n1 --> Break the heart\n2 --> Seize the heart\n")
+      if len(ending) == 1 and ending in "12":
+        break
+      else:
+        print("Input a valid option!")
+  if player_stats["health"] > 0 and player_stats["exit"] == False:
+    if ending == "1":
+      print("-------------------------- Good ending --------------------------")
+      print("You decide to hold the emerald heart in your hand, before shattering \nit. It pulses one last time. Cracks spread across its surface, spilling green light that \nfades into gentle white. With a sound like a sigh, it shatters, \nand the curse evaporates from the land. The skies clear, the earth heals, \nand the King’s reign is nothing but dust and memory. You drop the last \nshard into the abyss, walking away as a free soul in a free world.")
+    if ending == "2":
+      print("You decide to hold the emerald heart in your hand, before seizing it. \nThe Emerald Heart yields to you. Its light coils around your arm, sinking into your chest. \nThe curse bends to your will, its tendrils stretching over \nthe land once more, but this time, they bear your command. The people kneel \nin awe and fear, the throne no longer empty. The King’s voice is gone, \nbut his shadow lives on...through you.")
+    print("--------------------------- The End -----------------------------")
+    print(f"Credits:\nDeveloper --- Roshan, 12 August 2025\nPlayer --- {name}\n Your journey in Antumbra has ended, but the legacy you leave will never fade...")
