@@ -1,0 +1,24 @@
+#Structure
+#Healing fountain -- Heal to full health or cure all status effects
+player_stats = {"max_health":20,"health":10,"exit":False,"status_effects":{"poision_duration":5,"weaken_duration":5,"weaken_state":True}}
+def healing_fountain(player_stats,scale,encounter):
+  while True:
+    choice = input(f"{divider}\nYou encounter a Healing Fountain! It can \nreplenish, or cure you! What do you choose?\n1 --> Heal to full health\n2 --> Cure all status effects\n3 --> Ascend from the dungeon\n")
+    if len(choice) == 1:
+      if choice in "123":
+        break
+    print("Choose a valid option! ")
+  if choice == "1":
+    player_stats["health"] = player_stats["max_health"]
+    print("You heal back to full health! ")
+  if choice == "2":
+    player_stats["status_effects"]["poision_duration"] = 0
+    player_stats['status_effects']["weaken_duration"] = 0
+    player_stats['status_effects']["weaken_state"] = False
+    print("You feel cured from negative effects!")
+  if choice == "3":
+    print("You no longer feel in control if your body! ")
+    player_stats["exit"] = True
+  stats_bar(player_stats)
+  print(divider)
+#healing_fountain(player_stats,scale,encounter)
