@@ -1,0 +1,62 @@
+#Green man miniboss
+#labryinth
+#divider = "--"
+name = "Roshan"
+encounter = 0
+player_stats = {"health":50,"max_health":50,"attack":5,"exp":0,"level":0,"max_attack":5,"armour":4,"verdant_robe":False,"exit":False,"doom":False,"status_effects":{"poision_duration":0,"weaken_state":False,"weaken_duration":0}}
+green_man_stats = {"health":5}
+def miniboss(player_stats,scale,encounter):
+  ready = ""
+  global name
+  global divider
+  print('You seem to get yourself stuck in a labryinth! You try looking around for a way \nout but you unconciously move closer towards the centre, and feel a growing \nsense of dread. You come across an inscription on the wall reading "Only he knows \nthe secret to break the curse..." You move on.')
+  print(divider)
+  while True:
+    choice = input("You encounter a large emerald flame! You feel immense dark energy radiating \nfrom it, almost as if it was where it all started... What do you do?\n1 --> Extinguish the flame\n2 --> Find another way out\n3 --> Ascend\n")
+    if len(choice) == 1:
+      if choice in "123":
+        if choice == "1":
+         break
+        if choice == "3":
+          print("You no longer feel in control of your body! ")
+          player_stats["exit"] = True
+        if choice == "2":
+          while True:
+            confirm = input("You try to leave but you hear an ominous voice warning you that leaving will be \na grave mistake. Do you still wish to proceed?\n1 --> Change your mind and extinguish the flame\n2 --> Ignore the warning and leave\n3 --> Ascend\n")
+            if len(confirm) == 1:
+              if confirm in "123":
+                if confirm == "2":
+                  print('''"Go on then! You'll remember my words when silence falls..."''')
+                  player_stats["doom"] = True
+                if confirm == "3":
+                  print("You no longer feel in control of your body! ")
+                  player_stats["exit"] = True
+                break
+        break
+  #green_man_stats = {"health":5} -- dont do this, put green man stats outside the loop
+  if choice in "12" and player_stats["exit"] == False and player_stats["doom"] == False:
+    print(f"The ground starts to shake and you notice a green glow surrounding you. A \ntwisted ghostly figure emerges from the walls of the labryinth! Unlike \nregular monsters however, this figure seems to have a piece of conciousness left!\n{divider}")
+    print(f'"Do not fear {name}, I am unlike the others. I can only be known as the Green Man, \nand I have been shackled by The Curse which I had brought upon all. I have waited \ncenturies for another adventuruer like you, hoping to free the curse of the fallen \nkingdom. But first, I will have to test your worth... for if you cannot withstand me, \nhow will you ever stand before Him? Now, defeat me and I will help you succeed with \nyour goal, for liberation..."\n{divider}')
+    print('You temporarily gain a new attack skillset from the Green Man! "All actions have \nconsequences, choose wisely..." you hear the Green Man say to you.')
+  if player_stats["exit"] == False:
+    while True:
+      ready = input(f"Are you ready, {name}?\n1 --> Initiate the fight\n2 --> Ascend from the dungeon\n")
+      if len(ready) == 1:
+        if ready in "12":
+          if ready == "2":
+            print("You no longer feel in control of your body! ")
+            player_stats["exit"] = True
+          break
+      print("Choose a valid option! ")
+  while player_stats["health"] > 0 and green_man_stats["health"] > 0 and ready == "1" and player_stats["exit"] == False:
+    print(divider)
+    moves = random.randint(1,4)
+    green_man_skill(player_stats,moves,scale,encounter)
+  if player_stats["health"] > 0:
+    if green_man_stats["health"] <= 0:
+      exp(player_stats)
+      print(divider)
+      print(f'"You have proved your worth {name}, you are the first adventurer to have ever defeated \nme. I shall give you my prized possesion, my Verdant Robe. It will allow you to heal \nall your health curing negative effects once, with a price against him. Please, the fate \nof Antumbra is in your hands, free us from the curse. May luck be on your side..."')
+      print(f'''You catch a final glimpse of the Green Man, as he shatters into fragments of green \nsmoke You equiped the Verdant Robe and feel the power of nature flowing through you\n"Goodbye {name}..."''')
+      player_stats["verdant_robe"] = True
+#miniboss(player_stats,scale,encounter)
