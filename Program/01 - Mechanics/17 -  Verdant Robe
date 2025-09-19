@@ -1,0 +1,16 @@
+#Verdant_robe -- Green man item, heals max hp and cures all effects, destroy armour
+player_stats = {"health":20,"attack":5,"max_attack":5,"exp":0,"level":0,"armour":2,"status_effects":{"poision_duration":10,"weaken_state":True,"weaken_duration":10},"max_health":50,"verdant_robe":True}
+
+def verdant_robe(player_stats):
+  if player_stats["verdant_robe"] == True:
+    player_stats["health"] = player_stats["max_health"]
+    player_stats["status_effects"]["poision_duration"] = 0
+    player_stats["status_effects"]["weaken_state"] = False
+    player_stats["status_effects"]["weaken_duration"] = 0
+    player_stats["armour"] = 0
+    player_stats["verdant_robe"] = False
+    print("You have called on to the power of the Verdant Robe!\nMagic surges through you and you healed to full health and cured of all status effects! ")
+    print("However, nature demands a price, and the overwhelming power shatters your armour! ")
+    stats_bar(player_stats)
+#verdant_robe(player_stats)
+#verdant_robe(player_stats)
