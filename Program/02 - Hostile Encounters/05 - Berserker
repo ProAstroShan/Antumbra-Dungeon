@@ -1,0 +1,33 @@
+#Room generation
+#Enemies -- Beserker (Beserk)
+Life = True
+Encounter = 0
+scale = modifier("2",0)
+player_stats = {"max_health":20,"health":20,"attack":5,"max_attack":5,"armour":2,"status_effects":{"poision_duration":0,"weaken_duration":0,"weaken_state":False}}
+
+def beserker(player_stats,scale,encounter):
+  boss = False
+  beserker_stats = {"health":2*scale,"attack":1,"beserk_left":True,"description":"This ferocious creature has an undying rage, that \nallows it to come back to life and deal increased damage! "}
+  print(f"You have encountered a beserker!\n{divider} ")
+  choice = choices(beserker_stats,player_stats,encounter)
+  if choice == "1":
+    print("You have engaged in combat with the beserker! ")
+    while player_stats["health"] > 0 and beserker_stats["health"] > 0 and beserker_stats["beserk_left"] == True:
+      attack = random.randint(1,round(player_stats["attack"]))
+      beserker_stats["health"] -= attack
+      if beserker_stats["health"] < 0:
+        beserker_stats["health"] = 0
+      print(f"""You have dealt {attack} damage to the beserker, it now has {beserker_stats["health"]} health! """)
+      if beserker_stats["health"] == 0:
+        print(f"The beserker has turned beserk! It now has gained {scale} health and {scale} more damage! ")
+        beserk(beserker_stats,scale)
+      if beserker_stats["health"] > 0:
+        attack = random.randint(1,round(beserker_stats["attack"]))
+        final_attack = block_damage(player_stats["armour"],attack,encounter)
+        tick(player_stats)
+        if player_stats['health'] < 0:
+          player_stats['health'] = 0
+          print("You have died to this enemy! ")
+          Life = False
+        print(f"""You now have {player_stats["health"]} health!\n{divider}""")
+  stats_bar(player_stats)
