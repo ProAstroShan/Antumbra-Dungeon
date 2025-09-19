@@ -1,1 +1,40 @@
+#Room generation
+#Enemies - Bats (Lifesteal)
+Life = True
+player_stats = {"max_health":20,"health":20,"max_attack":5,"attack":5,"armour":2,"status_effects":{"poision_duration":0,"weaken_duration":0,"weaken_state":False}}
+encounter = 0
+scale = modifier("2",encounter)
 
+def bat(player_stats,scale,encounter):
+  boss = False
+  final_damage = 0
+  bat_stats = {"max_health":3*scale,"health":3*scale,"attack":1,"description":"These flying bats are known to steal the life force of the enemy \nit is attacking to heal itself! Kill it as fast as possible!"}
+  print(f"You encountered a vampiric bat!\n{divider} ")
+  choice = choices(bat_stats,player_stats,encounter)
+  if choice == "1":
+    while player_stats["health"] > 0 and bat_stats["health"] > 0:
+      attack = random.randint(1,player_stats["attack"])
+      bat_stats["health"] -= attack
+      if bat_stats["health"] < 0:
+        bat_stats["health"] = 0
+      print(f"""You have dealt {attack} damage to the bat, It now has {bat_stats["health"]} health! """)
+      if bat_stats["health"] > 0:
+        attack = random.randint(1,bat_stats["attack"])
+        final_damage = block_damage(player_stats["armour"],attack,encounter)
+      Lifesteal = final_damage // 3
+      Lost_damage = bat_stats["max_health"] - bat_stats["health"]
+      if Lifesteal > Lost_damage:
+        Lifesteal = Lost_damage
+      if bat_stats["health"] <= 0:
+        break
+      if Lifesteal <= 0:
+        Lifesteal = 1
+      bat_stats["health"] += Lifesteal
+      print(f"The bat life stealed and gained {Lifesteal} health! ")
+      tick(player_stats)
+      if player_stats["health"] < 0:
+        player_stats["health"] = 0
+        print("You have died to this enemy! ")
+        Life = False
+      print(f"""You now have {player_stats["health"]} health! \n{divider}""")
+    stats_bar(player_stats)
