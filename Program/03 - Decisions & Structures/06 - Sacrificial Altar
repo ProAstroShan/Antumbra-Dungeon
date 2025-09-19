@@ -1,0 +1,76 @@
+#Structures
+#Sacrificial Altar - Lose one stat for the gain of another
+player_stats = {"max_health":20,"health":20,"max_attack":5,"attack":5,"armour":2,"exit":False}
+def sacrificial_altar(player_stats,scale,encounter):
+  upgraded = False
+  while True:
+    choice = input(f"{divider}\nYou have encountered a Sacrifical Altar! There seems to be \na scroll of upgrade encased in the alter, only being released \nfrom sacrificing one of your core stats! What do you do?\n1 --> Sacrifice 4 Health\n2 --> Sacrifice 2 attack\n3 --> Sacrifice 2 armour\n4 --> Stay away and move on\n5 --> Ascend from the dungeon\n")
+    if len(choice) == 1:
+      if choice in "12345":
+        break
+    print("Choose a valid option! ")
+  if choice == "5":
+    player_stats["exit"] = True
+    print("You no longer feel in control of your body! ")
+  if choice == "4":
+    print("You decide to stay away from the altar and continue your journey! ")
+  if choice == "1":
+    if player_stats["health"] > 4:
+      print("The altar accepts your health sacrifice")
+      player_stats["health"] -= 4
+      stats_bar(player_stats)
+      upgrade(player_stats)
+      upgraded = True
+    else:
+      print("The altar is unhappy that you could not complete the full sacrifice! ")
+      roll = random.randint(1,6-player_stats["health"])
+      if roll == 1:
+        print("The altar grudgingly gives you the upgrade scroll and leaves you at 1 health")
+        player_stats["health"] = 1
+        stats_bar(player_stats)
+        upgrade(player_stats)
+        upgraded = True
+      else:
+        print("The altar pushes you away, keeping the upgrade scroll and leaving you at 1 health")
+        player_stats["health"] = 1
+        stats_bar(player_stats)
+  if choice == "2":
+    if player_stats["attack"] > 2:
+      print("The altar accepts your strength sacrifice")
+      player_stats["attack"] -= 2
+      stats_bar(player_stats)
+      upgrade(player_stats)
+      upgraded = True
+    else:
+      print("The altar is unhappy that you could not complete the full sacrifice! ")
+      roll = random.randint(1,4-player_stats["attack"])
+      if roll == 1:
+        print("The altar grudgingly gives you the upgrade scroll and leaves you at 1 attack")
+        player_stats["attack"] = 1
+        stats_bar(player_stats)
+        upgrade(player_stats)
+        upgraded = True
+      else:
+        print("The altar pushes you away, keeping the upgrade scroll and leaving you at 1 attack")
+        player_stats["attack"] = 1
+        stats_bar(player_stats)
+  if choice == "3":
+    if player_stats["armour"] > 2:
+      print("The altar accepts your defence sacrifice")
+      player_stats["armour"] -= 2
+      stats_bar(player_stats)
+      upgrade(player_stats)
+      upgraded = True
+    else:
+      print("The altar is unhappy that you could not complete the full sacrifice! ")
+      roll = random.randint(1,4-player_stats['armour'])
+      if roll == 1:
+        print("The altar grudgingly gives you the upgrade scroll and leaves you at 0 armour ")
+        player_stats["armour"] = 0
+        stats_bar(player_stats)
+        upgrade(player_stats)
+        upgraded = True
+      else:
+        print("The altar pushes you away, keeping the upgrade scroll and leaving you at 0 armour ")
+        player_stats["armour"] = 0
+        stats_bar(player_stats)
