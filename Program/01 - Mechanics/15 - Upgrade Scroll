@@ -1,0 +1,22 @@
+#Mechanics
+#Upgrade scroll
+player_stats = {"max_health":20,"health":20,"max_attack":5,"attack":5,"armour":2}
+def upgrade(player_stats):
+  while True:
+    choice = input(f"{divider}\nYou found a magical upgrade scroll, you can use \nthis to upgrade one of your core stats! Choose wisely\n1 --> Upgrade health by 4\n2 --> Upgrade attack by 2\n3 --> Upgrade armour by 2\n{divider}\n")
+    if len(choice) == 1:
+      if choice in "123":
+        break
+    print("Choose a valid option! ")
+  if choice == "1":
+    print("You feel a rush of health! ")
+    player_stats["max_health"] += 4
+    player_stats["health"] += 4
+  if choice == "2":
+    print("You feel stronger! ")
+    player_stats["max_attack"] += 2
+    player_stats["attack"] += 2
+  if choice == "3":
+    print("You feel more defence around you! ")
+    player_stats["armour"] += 2
+  stats_bar(player_stats)
