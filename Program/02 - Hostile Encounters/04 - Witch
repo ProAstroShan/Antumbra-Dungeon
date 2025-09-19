@@ -1,0 +1,31 @@
+#Room generation
+#Enemies - Witch (Weaken, reduce attack by x )
+Life = True
+scale = modifier("2",0)
+encounter = 0
+player_stats = {"max_health":20,"health":20,"attack":5,"max_attack":5,"armour":2,"status_effects":{"poision_duration":0,"weaken_duration":0,"weaken_state":False}}
+
+def witch(player_stats,scale,encounter):
+  boss = False
+  witch_stats = {"health":3*scale,"attack":1,"description":"The witch was someone that practiced dark magic and gone \ncrazy, she can reduce the amount of damage you can do! "}
+  print(f"You encountered a witch!\n{divider} ")
+  choice = choices(witch_stats,player_stats,encounter)
+  if choice == "1":
+    print("You engage in combat with the witch! ")
+    while player_stats["health"] > 0 and witch_stats["health"] > 0:
+      attack = random.randint(1,player_stats["attack"])
+      witch_stats["health"] -= attack
+      if witch_stats["health"] < 0:
+        witch_stats["health"] = 0
+      print(f"""You have dealt {attack} damage to the witch, It now has {witch_stats["health"]} health! """)
+      if witch_stats["health"] > 0:
+        attack = random.randint(1,witch_stats["attack"])
+        weaken(scale,player_stats)
+        final_attack = block_damage(player_stats["armour"],attack,encounter)
+        tick(player_stats)
+        if player_stats["health"] < 0:
+          player_stats["health"] = 0
+          print("You have died to this enemy! ")
+          Life = False
+        print(f"""You now have {player_stats["health"]} health! \n{divider}""")
+  stats_bar(player_stats)
