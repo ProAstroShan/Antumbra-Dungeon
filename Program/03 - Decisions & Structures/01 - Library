@@ -1,0 +1,17 @@
+#Structure
+#Lore room -- A paragraph of story and 1 exp
+player_stats = {"exp":0,"level":0}
+def read_lore():
+  print("You found an old library! You proceed to open a torn book ")
+  lore = ""
+  lore_total = []
+  lore_file = open("Lore_Real.txt","r")
+  for i in range(9):
+    lore = ""
+    for i in range(5):
+      lore = lore + lore_file.readline()
+    lore_total += [lore]
+  print(divider)
+  return lore_total
+text = read_lore()
+print(text[1])
