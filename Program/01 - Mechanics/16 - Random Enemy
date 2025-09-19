@@ -1,0 +1,22 @@
+#Mechanics
+#Rooms -- creates a random encounter
+encounter = 0
+player_stats = {"max_health":20,"health":20,"max_attack":5,"attack":5,"armour":2,"exp":0,"level":0,
+                "flee":False,"status_effects":{"poision_duration":0,"weaken_duration":0,"weaken_state":False}}
+scale = modifier("2",encounter)
+Life = True
+def random_room(player_stats,scale,encounter):
+  rooms_all = {"a":rat,"b":bat,"c":witch,"d":beserker}
+  rooms = ["a","b","c","d"]
+  final_key = random.choice(rooms)
+  if player_stats["health"] > 0:
+    rooms_all[final_key](player_stats,scale,encounter)
+    if player_stats["flee"] == False:
+      exp(player_stats)
+    else:
+      if boss == False:
+        player_stats["flee"] = False
+      else:
+        player_stats["flee"] = True
+#random_room(player_stats,scale,encounter)
+#print(player_stats)
