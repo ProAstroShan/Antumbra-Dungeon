@@ -1,0 +1,24 @@
+#special_events --> checks encounter for timed events like lore or boss
+player_stats = {"max_health":200,"max_attack":5,"health":200,"attack":5,"flee":False,"verdant_robe":True,"doom":False,"status_effects":{"poision_duration":0,"weaken_duration":0,"weaken_state":False},"exp":0,"level":0,"armour":2,"doom":False,"exit":False}
+green_man_stats = {"health":5}
+encounter = 3
+scale = modifier("2",16)
+name = "Pro"
+divider = "------"
+king_stats = {"health":100,"reveal_identity":False}
+def special_events(encounter):
+  if encounter % 3 == 0 and encounter != 0:
+    counts = (encounter // 3) - 1
+    text = read_lore()
+    print(text[counts])
+    exp(player_stats)
+    while True:
+      acknowledge = input("Type 1 to aknowledge the text: ")
+      if acknowledge == "1":
+        break
+      print("Acknowledge the text! ")
+  if encounter == 16:
+    miniboss(player_stats,scale,encounter)
+  if encounter == 28:
+    boss_fight(player_stats,scale,encounter)
+#special_events(28)
